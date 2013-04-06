@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
+<markers>
+  <% for my $marker (@$markers){ %>
+  <marker>
+    <name><%= $marker->name %></name>
+    <address><%= $marker->address %></address>
+    <detail><%= $marker->detail %></detail>
+    <lat><%= $marker->lat %></lat>
+    <lng><%= $marker->lng %></lng>
+    <create_at><%= $marker->create_at %></create_at>
+  </marker>
+  <% } %>
+</markers>
