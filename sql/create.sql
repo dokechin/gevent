@@ -60,5 +60,10 @@ ALTER TABLE logs REORGANIZE PARTITION pmax INTO (
     PARTITION pmax VALUES LESS THAN MAXVALUE
 );
 
+
 INSERT INTO `gevent`.`markers` (`Address`, `create_at`, `Detail`, `Id`, `lat`, `lng`, `Name`, `type`) VALUES ( '熱海市', current_timestamp, 'パン', 1, 11, 22,'布袋や', 1);
 INSERT INTO `gevent`.`markers` (`Address`, `create_at`, `Detail`, `Id`, `lat`, `lng`, `Name` , `type`) VALUES ( '熱海市', current_timestamp, 'その他', 2, 11.5, 22.11,'ヤオハン',1);
+INSERT INTO `gevent`.`markers` (`Address`, `create_at`, `Detail`, `Id`, `lat`, `lng`, `Name` , `type`) VALUES ( 'test', current_timestamp, 'その他', 3, 47.6145, -122.3418,'yaohan',1);
+INSERT INTO `gevent`.`markers` (`Address`, `create_at`, `Detail`, `Id`, `lat`, `lng`, `Name` , `type`) VALUES ( 'test', current_timestamp, 'その他', 4, 40, -00,'yaohan',1);
+INSERT INTO `gevent`.`markers` (`Address`, `create_at`, `Detail`, `Id`, `lat`, `lng`, `Name`, `type`) VALUES ( '熱海市', current_timestamp, 'パン', 5, 35, 139,'布袋や', 1);
+INSERT INTO `gevent`.`markers` (`Address`, `create_at`, `Detail`, `Id`, `lat`, `lng`, `Name`, `type`) VALUES ( 'test', current_timestamp, 'パン', 6, 35.2, 139.5,'test', 1);
