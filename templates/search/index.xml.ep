@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
 <markers>
   <% for my $marker (@$markers){ %>
-  <marker>
-    <name><%= $marker->name %></name>
-    <address><%= $marker->address %></address>
-    <detail><%= $marker->detail %></detail>
-    <lat><%= $marker->lat %></lat>
-    <lng><%= $marker->lng %></lng>
-    <distance><%= $marker->distance %></distance>
-    <create_at><%= $marker->create_at %></create_at>
-  </marker>
+  <marker name="<%= $marker->name %>" address="<%= $marker->address %>" detail="%= $marker->detail %>" lat="<%= $marker->lat %>" lng="<%= $marker->lng %>" distance="<%= $marker->distance %>" create_at="<%= $marker->create_at %>" />
   <% } %>
 </markers>
