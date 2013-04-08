@@ -14,7 +14,7 @@ sub search {
   my $radius = $self->param("radius");
 
   my $itr = $self->db->search_by_sql
-  ('SELECT address, create_at, detail, name, lat, lng, ( 3959 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance FROM markers HAVING distance < ? ORDER BY distance LIMIT 0 , 20',
+  ('SELECT address, create_at, detail, name, type, lat, lng, ( 3959 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance FROM markers HAVING distance < ? ORDER BY distance LIMIT 0 , 20',
   [ $center_lat, $center_lng, $center_lat, $radius]);
 
   my @markers = $itr->all;

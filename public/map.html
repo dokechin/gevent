@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="robots" content="noindex, nofollow">
-<title>東京の最寄駅を検索: 地下鉄・JR・私鉄（Google Maps API 3）</title>
+<title>ゲリライベント共有サイト</title>
 <style type="text/css"> 
   html {height: 100%;}
   body {height: 100%; margin: 0; padding: 0; background-color: #000; font-size: small; font-family: Arial, "メイリオ", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W4", "Osaka", "MS PGothic", sans-serif;}
@@ -16,42 +16,16 @@
 <script type="text/javascript" src="./js/util.js"></script>
 <script type="text/javascript"> 
 var icon = Array();
-    icon[0] = "./img/g20.png";
-    icon[1] = "./img/m20.png";
-    icon[2] = "./img/h20.png";
-    icon[3] = "./img/t20.png";
-    icon[4] = "./img/c20.png";
-    icon[5] = "./img/y20.png";
-    icon[6] = "./img/z20.png";
-    icon[7] = "./img/n20.png";
-    icon[8] = "./img/a20.png";
-    icon[9] = "./img/i20.png";
-    icon[10] = "./img/s20.png";
-    icon[11] = "./img/e20.png";
-    icon[12] = "./img/f20.png";
-    icon[15] = "./img/white20.png";
-    icon[21] = "./img/white20.png";
-    icon[22] = "./img/tokyu.png";
-    icon[23] = "./img/seibu.png";
-    icon[24] = "./img/keio.png";
-    icon[25] = "./img/odakyu.png";
-    icon[26] = "./img/tobu.png";
-    icon[27] = "./img/keikyu.png";
-    icon[28] = "./img/keisei.png";
-    icon[29] = "./img/arakawa.png";
-    icon[30] = "./img/hama.png";
-    icon[31] = "./img/jr20.png";
-    icon[32] = "./img/tx.png";
-    icon[33] = "./img/white20.png";
-    icon[34] = "./img/cum.png";
-    icon[35] = "./img/enoden.png";
-    icon[36] = "./img/sotetsu.png";
-    icon[37] = "./img/mirai.png";
-    icon[38] = "./img/hokuso.png";
-    icon[39] = "./img/sk.png";
-    icon[40] = "./img/white20.png";
-    icon[41] = "./img/tamamono.png";
-    icon[50] = "./img/land20.png";
+    icon[0] = "./img/tissue.png";
+    icon[1] = "./img/sale.png";
+    icon[2] = "./img/live.png";
+    icon[3] = "./img/sample.png";
+var event_name = Array();
+    event_name[0] = "ティシュ配布";
+    event_name[1] = "タイムセール";
+    event_name[2] = "路上ライブ";
+    event_name[3] = "サンプル配布";
+
 var infowindow = new google.maps.InfoWindow();
 var map;
 var geocoder;
@@ -61,7 +35,7 @@ function load() {
   geocoder = new google.maps.Geocoder();
   var latLng = new google.maps.LatLng(35.68923, 139.752274);
   var myOptions = {
-    zoom: 12,
+    zoom: 8,
     center: latLng,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     mapTypeControl: true,
@@ -103,20 +77,18 @@ function searchLocationsNear(center) {
 
     sidebar.innerHTML = "";
     if (markers.length == 0) {
-      sidebar.innerHTML = 'データベース内に駅がありません';
-      map.setCenter(new google.maps.LatLng(35.68923,139.752274), 13);
+      sidebar.innerHTML = 'データベース内にイベントがありません';
+      map.setCenter(new google.maps.LatLng(35.690921,139.700258), 8);
       return;
     }
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++) {
-      alert("hoge");
       var latlng = new google.maps.LatLng(parseFloat(markers[i].getAttribute("lat")), parseFloat(markers[i].getAttribute("lng")));
-      var label = "test";
-      var n = 0;
-      var ename = "test";
-      var category = 0;
+      var label = markers[i].getAttribute("name");
+      var n = markers[i].getAttribute("type");
+      var ename = markers[i].getAttribute("detail");
+      var category = event_name[n];
       var distance = markers[i].getAttribute("distance");
-      alert("" . distance);
       var marker = createMarker(latlng, label, category, n, ename, distance);
       bounds.extend(latlng);
     }
@@ -125,7 +97,7 @@ function searchLocationsNear(center) {
 }
 function createMarker(latlng, label, category, n, ename, distance) {
   var icoimg = new google.maps.MarkerImage(icon[n],
-    new google.maps.Size(20, 20),
+    new google.maps.Size(48, 48),
     new google.maps.Point(0, 0),
     new google.maps.Point(10, 10)
   );
@@ -159,14 +131,14 @@ google.maps.event.addDomListener(window, "load", load);
 <body>
 <div id="header">
   <form action="#" onsubmit="searchLocations(); return false">
-    ［住所・地名など］<input type="text" size="20" id="addressInput" value="東京タワー" />から半径
+    ［住所・地名など］<input type="text" size="20" id="addressInput" value="新宿駅" />から半径
     <select id="radiusSelect">
       <option value="1" selected>1km</option>
-      <option value="3">3km</option>
-      <option value="50">50km</option>
-      <option value="0.5">0.5km</option>
+      <option value="5">5km</option>
+      <option value="10">10km</option>
+      <option value="20">20km</option>
     </select>
-    <input type="button" onclick="searchLocations()" value="以内の駅を検索" />
+    <input type="button" onclick="searchLocations()" value="以内のイベントを検索" />
   </form>
 </div>
 <div id="side_bar">
