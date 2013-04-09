@@ -51,7 +51,45 @@ function load() {
     }
   }
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+  google.maps.event.addListener(map, 'click', function(event) {
+    placeMarker(event.latLng);
+  });
+
 }
+
+function placeMarker(location) {
+  var marker = new google.maps.Marker({
+      position: location,
+      map: map
+  });
+
+  var infoWindowContent = [
+    "<b>Get Directions From...</b><br />",
+    "<form id='map-form'>",
+    "Address/Postcode: <input id='map-from-address' type='text' />",
+    "<input type='submit' id='map-go' value='Go' />",
+    "</form>"
+  ].join("");
+
+//  marker.mylabel = label;
+// marker.mycategory = category;
+  google.maps.event.addListener(marker, "click", function() {
+    if (infowindow) infowindow.close();
+    infowindow = new google.maps.InfoWindow({content: infoWindowContent});
+    infowindow.open(map, marker);
+  });
+
+  google.maps.event.addListener(info, 'domready', function() {
+    document.id("map-form").addEvent("submit", function(e) {
+        e.stop();
+        alert("hi");
+    });
+  });
+
+  map.setCenter(location);
+}
+
 function searchLocations() {
   infowindow.close();
   for (var i = 0; i < markers.length; i++) {
@@ -136,7 +174,6 @@ google.maps.event.addDomListener(window, "load", load);
       <option value="1" selected>1km</option>
       <option value="5">5km</option>
       <option value="10">10km</option>
-      <option value="20">20km</option>
     </select>
     <input type="button" onclick="searchLocations()" value="以内のイベントを検索" />
   </form>
