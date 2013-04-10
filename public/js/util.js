@@ -10,7 +10,7 @@ function createXmlHttpRequest() {
  }
  return null;
 };
-function downloadUrl(url, callback) {
+function downloadUrl(url, type, callback) {
  var status = -1;
  var request = createXmlHttpRequest();
  if (!request) {
@@ -28,7 +28,7 @@ function downloadUrl(url, callback) {
      }
    }
  }
- request.open('GET', url, true);
+ request.open(type, url, true);
  try {
    request.send(null);
  } catch (e) {

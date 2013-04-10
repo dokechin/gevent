@@ -19,7 +19,8 @@ sub startup {
   # Normal route to controller
   $r->get('/')->to('root#index');
   $r->post('/newentry')->to('newentry#register');
-  $r->get('/search')->to('search#search');
+  $r->get('/event')->to('event#search');
+  $r->post('/event')->to('event#create');
 }
 
 1;

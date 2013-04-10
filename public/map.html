@@ -67,8 +67,12 @@ function placeMarker(location) {
   var infoWindowContent = [
     "<b>Get Directions From...</b><br />",
     "<form id='map-form'>",
-    "Address/Postcode: <input id='map-from-address' type='text' />",
-    "<input type='submit' id='map-go' value='Go' />",
+    "Event Name: <input id='eventName' type='text' />",
+    "Event detail: <input id='detail' type='textarea' />",
+    "<input id='latlng' type='hidden' value='",
+    location,
+    "'>",
+    "<input type='button' onclick='javascript:mysubmit()' value='Register' />",
     "</form>"
   ].join("");
 
@@ -80,16 +84,26 @@ function placeMarker(location) {
     infowindow.open(map, marker);
   });
 
-  google.maps.event.addListener(info, 'domready', function() {
-    document.id("map-form").addEvent("submit", function(e) {
-        e.stop();
-        alert("hi");
-    });
-  });
+//  google.maps.event.addListener(info, 'domready', function() {
+//    document.id("map-form").addEvent("submit", function(e) {
+//        e.stop();
+//        alert("hi");
+//    });
+//  });
 
   map.setCenter(location);
 }
 
+function mysubmit(){
+  var eventName = document.getElementById("eventName").value;
+  var latlng = document.getElementById("latlng").value;
+  if (infowindow) infowindow.close();
+  alert ("latlng" + latlng);
+  var searchUrl = "./event?latlng="+latlng + "&name="+name + "&detail="+detail;
+  downloadUrl(searchUrl, "POST", function(data) {
+  });
+
+}
 function searchLocations() {
   infowindow.close();
   for (var i = 0; i < markers.length; i++) {
@@ -108,8 +122,8 @@ function searchLocations() {
 function searchLocationsNear(center) {
   var radius = document.getElementById("radiusSelect").value;
 
-  var searchUrl = "./search?lat="+center.lat()+"&lng="+center.lng()+"&radius="+radius;
-  downloadUrl(searchUrl, function(data) {
+  var searchUrl = "./event?lat="+center.lat()+"&lng="+center.lng()+"&radius="+radius;
+  downloadUrl(searchUrl, "GET", function(data) {
     var markers = data.documentElement.getElementsByTagName("marker");
     var sidebar = document.getElementById("side_bar");
 
