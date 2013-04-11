@@ -1,10 +1,12 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="robots" content="noindex, nofollow">
 <title>ゲリライベント共有サイト</title>
-<style type="text/css"> 
+<style type="text/css">
   html {height: 100%;}
   body {height: 100%; margin: 0; padding: 0; background-color: #000; font-size: small; font-family: Arial, "メイリオ", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W4", "Osaka", "MS PGothic", sans-serif;}
   #header {position: absolute; top: 0; left: 0; overflow: hidden; padding: 5px 5px; color: #FFF;}
@@ -14,7 +16,7 @@
 </style>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="./js/util.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
 var icon = Array();
     icon[0] = "./img/tissue.png";
     icon[1] = "./img/sale.png";
@@ -67,10 +69,26 @@ function placeMarker(location) {
   var infoWindowContent = [
     "<b>Get Directions From...</b><br />",
     "<form id='map-form'>",
-    "Event Name: <input id='eventName' type='text' />",
-    "Event detail: <input id='detail' type='textarea' />",
-    "<input id='latlng' type='hidden' value='",
-    location,
+    "イベント名: <input id='eventName' type='text' /><br />",
+    "<SELECT id='eventType'><OPTION selected value=0>",
+    event_name[0],
+    "</OPTION>",
+    "<OPTION value=1>",
+    event_name[1],
+    "</OPTION>",
+    "<OPTION value=2>",
+    event_name[2],
+    "</OPTION>",
+    "<OPTION value=3>",
+    event_name[3],
+    "</OPTION>",
+    "</SELECT>",
+    "詳細: <input id='eventDetail' type='textarea' /><br />",
+    "<input id='eventLat' type='hidden' value='",
+    location.lat(),
+    "'>",
+    "<input id='eventLng' type='hidden' value='",
+    location.lng(),
     "'>",
     "<input type='button' onclick='javascript:mysubmit()' value='Register' />",
     "</form>"
@@ -95,13 +113,18 @@ function placeMarker(location) {
 }
 
 function mysubmit(){
-  var eventName = document.getElementById("eventName").value;
-  var latlng = document.getElementById("latlng").value;
-  if (infowindow) infowindow.close();
-  alert ("latlng" + latlng);
-  var searchUrl = "./event?latlng="+latlng + "&name="+name + "&detail="+detail;
+  var name = document.getElementById("eventName").value;
+  var detail = document.getElementById("eventDetail").value;
+  var lat = document.getElementById("eventLat").value;
+  var lng = document.getElementById("eventLng").value;
+  var lng = document.getElementById("eventLng").value;
+  var type = document.getElementById("eventType").value;
+  var searchUrl = "./event?type=" + type +"&lat=" + lat + "&lng=" + lng + "&name=" + name + "&detail="+detail;
+  alert (searchUrl);
   downloadUrl(searchUrl, "POST", function(data) {
+    if (infowindow) infowindow.close();
   });
+
 
 }
 function searchLocations() {

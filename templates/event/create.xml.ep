@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
+<markers>
+  <marker name="<%= $marker->name %>" address="<%= $marker->address %>" detail="<%= $marker->detail %>" lat="<%= $marker->lat %>" lng="<%= $marker->lng %>" distance="<%= $marker->distance %>" type="<%= $marker->type %>" create_at="<%= $marker->create_at %>" />
+</markers>

@@ -19,7 +19,7 @@ CREATE  TABLE IF NOT EXISTS `gevent`.`Markers` (
   lat FLOAT NOT NULL,
   lng FLOAT NOT NULL,
   type INT NOT NULL,
-  `create_at` DATETIME NOT NULL ,
+  `create_at` DATETIME NOT NULL,
   INDEX `Index1` (`Id` ASC) ,
   INDEX `Index2` (`type` ASC) )
 ENGINE = InnoDB
