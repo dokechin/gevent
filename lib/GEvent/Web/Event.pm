@@ -32,13 +32,13 @@ sub create {
   my $lat = $self->param("lat");
   my $lng = $self->param("lng");
   my $name = $self->param("name");
+  my $address = $self->param("address");
   my $detail = $self->param("detail");
   my $type = $self->param("type");
   my $dt = DateTime->now( time_zone=>'local' );
 
-  print "create called";
   my $marker = $self->db->insert('Markers',
-   {type=> $type, name=> $name, detail => $detail,lat=> $lat, lng => $lng, create_at => $dt});
+   {address => $address, type=> $type, name=> $name, detail => $detail,lat=> $lat, lng => $lng, create_at => $dt});
 
   $self->render(template =>'event/create', format=> 'xml', marker => $marker);
 

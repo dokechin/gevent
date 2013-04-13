@@ -82,7 +82,7 @@ function placeMarker(location) {
     "<OPTION value=3>",
     event_name[3],
     "</OPTION>",
-    "</SELECT>",
+    "</SELECT><br />",
     "詳細: <input id='eventDetail' type='textarea' /><br />",
     "<input id='eventLat' type='hidden' value='",
     location.lat(),
@@ -113,17 +113,34 @@ function placeMarker(location) {
 }
 
 function mysubmit(){
+
   var name = document.getElementById("eventName").value;
   var detail = document.getElementById("eventDetail").value;
   var lat = document.getElementById("eventLat").value;
   var lng = document.getElementById("eventLng").value;
   var address = "test";
   var type = document.getElementById("eventType").value;
-  var searchUrl = "./event?type=" + type +"&lat=" + lat + "&lng=" + lng + "&name=" + name + "&detail="+detail;
-  var searchUrl = encodeURI(searchUrl);
-  downloadUrl(searchUrl, "POST", function(data) {
-    if (infowindow) infowindow.close();
+  var address = "";
+
+  var latLng = new google.maps.LatLng(lat, lng);
+  
+  geocoder.geocode({'latLng': latLng}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      if (results[1]) {
+        address = results[1].formatted_address;
+        alert (address);
+
+        var searchUrl = "./event?address=" + address + "&type=" + type +"&lat=" + lat + "&lng=" + lng + "&name=" + name + "&detail="+detail;
+        var searchUrl = encodeURI(searchUrl);
+
+        downloadUrl(searchUrl, "POST", function(data) {
+          if (infowindow) infowindow.close();
+        });
+
+      }        
+    } 
   });
+
 
 
 }
