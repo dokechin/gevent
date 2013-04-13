@@ -117,10 +117,10 @@ function mysubmit(){
   var detail = document.getElementById("eventDetail").value;
   var lat = document.getElementById("eventLat").value;
   var lng = document.getElementById("eventLng").value;
-  var lng = document.getElementById("eventLng").value;
+  var address = "test";
   var type = document.getElementById("eventType").value;
   var searchUrl = "./event?type=" + type +"&lat=" + lat + "&lng=" + lng + "&name=" + name + "&detail="+detail;
-  alert (searchUrl);
+  var searchUrl = encodeURI(searchUrl);
   downloadUrl(searchUrl, "POST", function(data) {
     if (infowindow) infowindow.close();
   });

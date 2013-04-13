@@ -12,7 +12,7 @@ USE `gevent` ;
 -- Table `mydb`.`Tweet`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `gevent`.`Markers` (
-  `Id` INT NOT NULL ,
+  `Id` INT NOT NULL AUTO_INCREMENT,
   `Name` TEXT NOT NULL ,
   `Address` TEXT NULL ,
   `Detail` TEXT NULL ,
