@@ -17,6 +17,7 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="./js/util.js"></script>
 <script type="text/javascript">
+var new_icon = "./img/new.png";
 var icon = Array();
     icon[0] = "./img/tissue.png";
     icon[1] = "./img/sale.png";
@@ -32,6 +33,7 @@ var infowindow = new google.maps.InfoWindow();
 var map;
 var geocoder;
 var markers = [];
+var new_marker;
 var marcador = new google.maps.Marker();
 function load() {
   geocoder = new google.maps.Geocoder();
@@ -61,16 +63,21 @@ function load() {
 }
 
 function placeMarker(location) {
-  var marker = new google.maps.Marker({
+  var icoimg = new google.maps.MarkerImage(new_icon,
+    new google.maps.Size(32, 32),
+    new google.maps.Point(0, 0),
+    new google.maps.Point(10, 10)
+  );
+  new_marker = new google.maps.Marker({
       position: location,
-      map: map
+      map: map,
+      icon: icoimg
   });
 
   var infoWindowContent = [
-    "<b>Get Directions From...</b><br />",
+    "<b>イベント入力</b><br />",
     "<form id='map-form'>",
-    "イベント名: <input id='eventName' type='text' /><br />",
-    "<SELECT id='eventType'><OPTION selected value=0>",
+    "イベントタイプ:<SELECT id='eventType'><OPTION selected value=0>",
     event_name[0],
     "</OPTION>",
     "<OPTION value=1>",
@@ -83,6 +90,7 @@ function placeMarker(location) {
     event_name[3],
     "</OPTION>",
     "</SELECT><br />",
+    "イベント名: <input id='eventName' type='text' /><br />",
     "詳細: <input id='eventDetail' type='textarea' /><br />",
     "<input id='eventLat' type='hidden' value='",
     location.lat(),
@@ -94,20 +102,12 @@ function placeMarker(location) {
     "</form>"
   ].join("");
 
-//  marker.mylabel = label;
-// marker.mycategory = category;
-  google.maps.event.addListener(marker, "click", function() {
+  google.maps.event.addListener(new_marker, "click", function() {
     if (infowindow) infowindow.close();
     infowindow = new google.maps.InfoWindow({content: infoWindowContent});
-    infowindow.open(map, marker);
+    infowindow.open(map, new_marker);
   });
 
-//  google.maps.event.addListener(info, 'domready', function() {
-//    document.id("map-form").addEvent("submit", function(e) {
-//        e.stop();
-//        alert("hi");
-//    });
-//  });
 
   map.setCenter(location);
 }
@@ -118,7 +118,6 @@ function mysubmit(){
   var detail = document.getElementById("eventDetail").value;
   var lat = document.getElementById("eventLat").value;
   var lng = document.getElementById("eventLng").value;
-  var address = "test";
   var type = document.getElementById("eventType").value;
   var address = "";
 
@@ -128,15 +127,15 @@ function mysubmit(){
     if (status == google.maps.GeocoderStatus.OK) {
       if (results[1]) {
         address = results[1].formatted_address;
-        alert (address);
 
         var searchUrl = "./event?address=" + address + "&type=" + type +"&lat=" + lat + "&lng=" + lng + "&name=" + name + "&detail="+detail;
         var searchUrl = encodeURI(searchUrl);
 
         downloadUrl(searchUrl, "POST", function(data) {
           if (infowindow) infowindow.close();
+          new_marker.setMap(null);
+          alert ("登録が完了しました。\n新しく登録したマーカーを表示させるためには、再検索してください。");
         });
-
       }        
     } 
   });
