@@ -35,6 +35,8 @@ var geocoder;
 var markers = [];
 var new_marker;
 var marcador = new google.maps.Marker();
+
+	
 function load() {
   geocoder = new google.maps.Geocoder();
   var latLng = new google.maps.LatLng(35.68923, 139.752274);
@@ -98,14 +100,15 @@ function placeMarker(location) {
     "<input id='eventLng' type='hidden' value='",
     location.lng(),
     "'>",
-    "<input type='button' onclick='javascript:mysubmit()' value='Register' />",
+    "<input type='button' onclick='javascript:mysubmit()' value='登録' />",
     "</form>"
   ].join("");
 
   google.maps.event.addListener(new_marker, "click", function() {
+    new_marker = this;
     if (infowindow) infowindow.close();
     infowindow = new google.maps.InfoWindow({content: infoWindowContent});
-    infowindow.open(map, new_marker);
+    infowindow.open(map, this);
   });
 
 
@@ -169,33 +172,35 @@ function searchLocationsNear(center) {
     sidebar.innerHTML = "";
     if (markers.length == 0) {
       sidebar.innerHTML = 'データベース内にイベントがありません';
-      map.setCenter(new google.maps.LatLng(35.690921,139.700258), 8);
+      map.setCenter(center, 8);
       return;
     }
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++) {
       var latlng = new google.maps.LatLng(parseFloat(markers[i].getAttribute("lat")), parseFloat(markers[i].getAttribute("lng")));
+      var id = markers[i].getAttribute("id");
       var label = markers[i].getAttribute("name");
       var n = markers[i].getAttribute("type");
       var ename = markers[i].getAttribute("detail");
       var category = event_name[n];
       var distance = markers[i].getAttribute("distance");
-      var marker = createMarker(latlng, label, category, n, ename, distance);
+      var create_at = markers[i].getAttribute("create_at");
+      var marker = createMarker({id: id, latlng: latlng, label:label, category: category, type : n, ename : ename, distance: distance, create_at: create_at});
       bounds.extend(latlng);
     }
     map.fitBounds(bounds);
   });
 }
-function createMarker(latlng, label, category, n, ename, distance) {
-  var icoimg = new google.maps.MarkerImage(icon[n],
+function createMarker(info) {
+  var icoimg = new google.maps.MarkerImage(icon[info.type],
     new google.maps.Size(48, 48),
     new google.maps.Point(0, 0),
     new google.maps.Point(10, 10)
   );
-  var marker = new google.maps.Marker({position: latlng, map: map, title: label, icon: icoimg});
-  var html = "<b>"+label+"<\/b><br/>"+ename+"<br/>"+category+"<br/>（目的地から "+distance+" km）";
-  marker.mylabel = label;
-  marker.mycategory = category;
+  var marker = new google.maps.Marker({position: info.latlng, map: map, title: info.label, icon: icoimg});
+  var html = "イベント名: <a click='function(){ var win = window.open(this.href, 'event');win.focus();return false;} href='/event/" + info.id + "'>"+info.label+"<a><br/>詳細: "+info.ename+"<br/>イベントタイプ: "+info.category+"<br/>登録時刻: " + info.create_at + "<br/>（目的地から "+info.distance+" km）";
+  marker.mylabel = info.label;
+  marker.mycategory = info.category;
   google.maps.event.addListener(marker, "click", function() {
     if (infowindow) infowindow.close();
     infowindow = new google.maps.InfoWindow({content: html});
@@ -232,9 +237,8 @@ google.maps.event.addDomListener(window, "load", load);
   </form>
 </div>
 <div id="side_bar">
-  首都圏1500駅から検索<br />
-  東京メトロ、都営地下鉄、JR、東急、小田急、京王、東武、西武、京急、京成、相鉄など<br />
-  検索結果は最大20件まで表示します
+  登録されてから２４時間いないのゲリライベント検索<br />
+  検索結果は最大50件まで表示します
 </div>
 <div id="map_canvas"></div>
 </body>

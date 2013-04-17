@@ -6,7 +6,6 @@ use utf8;
 use Data::Dumper;
 use DateTime;
 
-
 # This action will render a template
 sub search {
   my $self = shift;
@@ -15,9 +14,12 @@ sub search {
   my $center_lng = $self->param("lng");
   my $radius = $self->param("radius");
 
+  my $dt1 = DateTime->now( time_zone => 'local' )->add( days => -1);
+  my $dt2 = DateTime->now( time_zone => 'local' );
+
   my $itr = $self->db->search_by_sql
-  ('SELECT address, create_at, detail, name, type, lat, lng, ( 3959 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance FROM markers HAVING distance < ? ORDER BY distance LIMIT 0 , 20',
-  [ $center_lat, $center_lng, $center_lat, $radius]);
+  ('SELECT id, address, create_at, detail, name, type, lat, lng, ( 3959 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance FROM markers where create_at between ? and ? HAVING distance < ? ORDER BY distance LIMIT 0 , 20',
+  [ $center_lat, $center_lng, $center_lat, DateTime::Format::MySQL->format_datetime($dt1),DateTime::Format::MySQL->format_datetime($dt2) , $radius]);
 
   my @markers = $itr->all;
 
@@ -43,4 +45,18 @@ sub create {
   $self->render(template =>'event/create', format=> 'xml', marker => $marker);
 
 }
+
+
+# This action will render a template
+sub show {
+  my $self = shift;
+
+  my $id = $self->param("id");
+
+  my $marker = $self->db->single('Markers', +{id => $id});
+
+  $self->render(template =>'event/create', format=> 'xml', marker => $marker);
+
+}
+
 1;

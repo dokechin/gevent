@@ -21,6 +21,7 @@ sub startup {
   $r->post('/newentry')->to('newentry#register');
   $r->get('/event')->to('event#search');
   $r->post('/event')->to('event#create');
+  $r->get('/event/:id')->to('event#show');
 }
 
 1;
