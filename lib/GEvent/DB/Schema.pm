@@ -4,6 +4,7 @@ use DateTime::Format::MySQL;
 
 table {
     name 'Markers';
+    pk Id;
     columns qw( Id Name address detail Lat lng type create_at );
 
     inflate 'create_at' => sub {

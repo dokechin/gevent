@@ -132,7 +132,7 @@ function mysubmit(){
         address = results[1].formatted_address;
 
         var searchUrl = "./event?address=" + address + "&type=" + type +"&lat=" + lat + "&lng=" + lng + "&name=" + name + "&detail="+detail;
-        var searchUrl = encodeURI(searchUrl);
+        searchUrl = encodeURI(searchUrl);
 
         downloadUrl(searchUrl, "POST", function(data) {
           if (infowindow) infowindow.close();
@@ -198,7 +198,7 @@ function createMarker(info) {
     new google.maps.Point(10, 10)
   );
   var marker = new google.maps.Marker({position: info.latlng, map: map, title: info.label, icon: icoimg});
-  var html = "イベント名: <a click='function(){ var win = window.open(this.href, 'event');win.focus();return false;} href='/event/" + info.id + "'>"+info.label+"<a><br/>詳細: "+info.ename+"<br/>イベントタイプ: "+info.category+"<br/>登録時刻: " + info.create_at + "<br/>（目的地から "+info.distance+" km）";
+  var html = "イベント名: <a href='/event/" + info.id + "' onclick='return other(this);'>"+info.label+"</a><br/>詳細: "+info.ename+"<br/>イベントタイプ: "+info.category+"<br/>登録時刻: " + info.create_at + "<br/>（目的地から "+info.distance+" km）";
   marker.mylabel = info.label;
   marker.mycategory = info.category;
   google.maps.event.addListener(marker, "click", function() {
@@ -208,6 +208,10 @@ function createMarker(info) {
   });
   markers.push(marker);
   createSidebarEntry();
+}
+function other(a){
+  window.open(a.href, 'event');
+  return false;
 }
 function myclick(i) {
   google.maps.event.trigger(markers[i], "click");
