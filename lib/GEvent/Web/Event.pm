@@ -55,9 +55,8 @@ sub show {
 
   my $marker = $self->db->single('Markers', +{id => $id});
 
-
  my $html = $self->render_partial(template => 'event/show')->to_string;
- $self->render_text(HTML::FillInForm->fill(\$html, {name => $marker->name, address => $marker->address, detail => $marker->detail }),            format => 'html');
+ $self->render_text(HTML::FillInForm->fill(\$html, {name => $marker->name, create_at => $marker->create_at ,address => $marker->address, detail => $marker->detail }),            format => 'html');
  
 }
 
