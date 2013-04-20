@@ -8,7 +8,7 @@ sub index {
   my $self = shift;
 
   my $itr = $self->db->search_by_sql
-  ('SELECT id, address, create_at, detail, name, type, lat, lng FROM markers ORDER BY create_at desc LIMIT 0 , 20');
+  ('SELECT id, address, create_at, detail, name, type, lat, lng FROM Markers ORDER BY create_at desc LIMIT 0 , 20');
 
   my @markers = $itr->all;
 

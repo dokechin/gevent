@@ -18,7 +18,7 @@ sub search {
   my $dt2 = DateTime->now( time_zone => 'local' );
 
   my $itr = $self->db->search_by_sql
-  ('SELECT id, address, create_at, detail, name, type, lat, lng, ( 3959 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance FROM markers where create_at between ? and ? HAVING distance < ? ORDER BY distance LIMIT 0 , 20',
+  ('SELECT id, address, create_at, detail, name, type, lat, lng, ( 3959 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance FROM Markers where create_at between ? and ? HAVING distance < ? ORDER BY distance LIMIT 0 , 20',
   [ $center_lat, $center_lng, $center_lat, DateTime::Format::MySQL->format_datetime($dt1),DateTime::Format::MySQL->format_datetime($dt2) , $radius]);
 
   my @markers = $itr->all;
