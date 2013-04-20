@@ -4,31 +4,26 @@
 <%= form_for '/newentry' => (method => "post") => (class => "form-horizontal") => begin %>
 <fieldset xmlns="http://www.w3.org/1999/xhtml"><legend>イベント情報</legend>
 <div class ="control-group <% if ($self->stash->{errors} && $self->stash->{errors}->{"textinput"}) {%><%= "error" %><% } %>"><label class="control-label">イベント名</label>
-<div class="controls"><%= text_field 'name' => (class => "input-xlarge") => (placeholder => "placeholder") %> 
+<div class="controls"><%= text_field 'name' => (class => "input-xlarge") => (placeholder => "placeholder") => (disabled => "") %> 
 </div>
 </div>
 <div class ="control-group <% if ($self->stash->{errors} && $self->stash->{errors}->{"selectbasic"}) {%><%= "error" %><% } %>"><label class="control-label">イベントタイプ</label>
-<div class="controls"><%= select_field 'selectbasic' => [ qw/ ティシュ配布 タイムセール 路上ライブ 製品サンプル配布  / ]  => (class => "input-xlarge") %> </div>
+<div class="controls"><%= select_field 'selectbasic' => [ qw/ ティシュ配布 タイムセール 路上ライブ 製品サンプル配布  / ]  => (class => "input-xlarge") => (disabled => "") %> </div>
 </div>
 <div class ="control-group <% if ($self->stash->{errors} && $self->stash->{errors}->{"textinput"}) {%><%= "error" %><% } %>"><label class="control-label">登録時刻</label>
-<div class="controls"><%= text_field 'create_at' => (class => "input-xlarge") => (placeholder => "placeholder") %> 
+<div class="controls"><%= text_field 'create_at' => (class => "input-xlarge") => (placeholder => "placeholder") => (disabled => "") %> 
 </div>
 </div>
 <div class ="control-group <% if ($self->stash->{errors} && $self->stash->{errors}->{"textinput"}) {%><%= "error" %><% } %>"><label class="control-label">住所</label>
-<div class="controls"><%= text_field 'address' => (class => "input-xlarge") => (placeholder => "placeholder") %> 
+<div class="controls"><%= text_field 'address' => (class => "input-xlarge") => (placeholder => "placeholder") => (disabled => "")%> 
 </div>
 </div>
 <div class ="control-group <% if ($self->stash->{errors} && $self->stash->{errors}->{"textarea"}) {%><%= "error" %><% } %>"><label class="control-label">詳細</label>
 <div class="controls">
-<%= text_area 'detail' => (class => "") => (type => "") %> </div>
+<%= text_area 'detail' => (class => "") => (disabled => "") %> </div>
 </div>
 </fieldset>
 <% end %>
-% if ($self->stash->{error_messages}) {
-<ul>
-% for my $message ( @{$self->stash->{error_messages}} ) {
-<li><%= $message %></li>
-% }
-</ul>
-% }
+%== share_button 'twitter',   url =>  $config->{context_root} . 'event/' . "$id", text => $address. 'で' . $name . 'やってるよ！';
+%== share_button 'facebook',  url =>  $config->{context_root} . 'event/' . "$id", type => 'button_count', title => $address. 'で' . $name . 'やってるよ！';
 

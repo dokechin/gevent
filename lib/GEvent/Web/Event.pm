@@ -54,8 +54,12 @@ sub show {
   my $id = $self->param("id");
 
   my $marker = $self->db->single('Markers', +{id => $id});
+  
+  $self->stash(id =>$marker->id);
+  $self->stash(name =>$marker->name);
+  $self->stash(address =>$marker->address);
 
- my $html = $self->render_partial(template => 'event/show')->to_string;
+ my $html = $self->render_partial(template => 'event/show'  )->to_string;
  $self->render_text(HTML::FillInForm->fill(\$html, {name => $marker->name, create_at => $marker->create_at ,address => $marker->address, detail => $marker->detail }),            format => 'html');
  
 }
