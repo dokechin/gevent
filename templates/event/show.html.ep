@@ -8,7 +8,7 @@
 </div>
 </div>
 <div class ="control-group <% if ($self->stash->{errors} && $self->stash->{errors}->{"selectbasic"}) {%><%= "error" %><% } %>"><label class="control-label">イベントタイプ</label>
-<div class="controls"><%= select_field 'selectbasic' => [ qw/ ティシュ配布 タイムセール 路上ライブ 製品サンプル配布  / ]  => (class => "input-xlarge") => (disabled => "") %> </div>
+<div class="controls"><%= select_field 'selectbasic' => $config->{event_type}  => (class => "input-xlarge") => (disabled => "") %> </div>
 </div>
 <div class ="control-group <% if ($self->stash->{errors} && $self->stash->{errors}->{"textinput"}) {%><%= "error" %><% } %>"><label class="control-label">登録時刻</label>
 <div class="controls"><%= text_field 'create_at' => (class => "input-xlarge") => (placeholder => "placeholder") => (disabled => "") %> 

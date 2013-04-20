@@ -24,6 +24,8 @@ sub startup {
   $r->get('/event')->to('event#search');
   $r->post('/event')->to('event#create');
   $r->get('/event/:id')->to('event#show');
+  $r->get('/new')->to('new#index');
+
 }
 
 1;

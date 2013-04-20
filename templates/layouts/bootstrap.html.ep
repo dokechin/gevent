@@ -6,9 +6,26 @@
      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
      <script language="javascript" src="<%= url_for("/js/bootstrap.min.js") %>"></script>
   </head>
-  <body>
-    <div class="container">
-       <%= content %>
+  <body style="padding-top:65px;">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a href="/" class="brand"><img alt="logo" src="/img/logo.png" /></a>
+          <ul class="nav">
+            <li class="active"><a href="/">検索</a></li>
+            <li><a href="/new">最新のエントリー</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
+
+    <div class="container">
+      <%= content %> 
+      <hr>
+      <footer>
+        <p>&copy; @dokechin 2013</p>
+      </footer>
+    </div><!--/.container-->
+
   </body>
 </html>

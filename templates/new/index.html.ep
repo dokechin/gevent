@@ -1,0 +1,27 @@
+% layout 'bootstrap';
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>イベント名</th>
+      <th>タイプ</th>
+      <th>住所</th>
+      <th>登録時刻</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for my $marker (@$markers){ %>
+    <tr>
+      <td><a href="/event/<%= $marker->id %>"><%= $marker->id %></a></td>
+      <td><%= $marker->name %></td>
+      <td><%= $config->{event_type}[$marker->type] %></td>
+      <td><%= $marker->address %></td>
+      <td><%= $marker->create_at %></td>
+    </tr>
+    <% } %>
+  </tbody>
+
+</table>
+
+
