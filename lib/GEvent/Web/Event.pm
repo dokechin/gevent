@@ -6,9 +6,12 @@ use utf8;
 use Data::Dumper;
 use DateTime;
 
+
 # This action will render a template
 sub search {
   my $self = shift;
+
+
 
   my $center_lat = $self->param("lat");
   my $center_lng = $self->param("lng");
@@ -17,9 +20,15 @@ sub search {
   my $dt1 = DateTime->now( time_zone => 'local' )->add( days => -1);
   my $dt2 = DateTime->now( time_zone => 'local' );
 
+  $self->app->log->debug('hoga');
+
   my $itr = $self->db->search_by_sql
   ('SELECT id, address, create_at, detail, name, type, lat, lng, ( 3959 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance FROM Markers where create_at between ? and ? HAVING distance < ? ORDER BY distance LIMIT 0 , 20',
   [ $center_lat, $center_lng, $center_lat, DateTime::Format::MySQL->format_datetime($dt1),DateTime::Format::MySQL->format_datetime($dt2) , $radius]);
+
+
+
+#  $self->app->log->debug('hoge' . DateTime::Format::MySQL->format_datetime($dt2));
 
   my @markers = $itr->all;
 
@@ -31,6 +40,7 @@ sub search {
 sub create {
   my $self = shift;
 
+#  $self->app->log->debug('create');
   my $lat = $self->param("lat");
   my $lng = $self->param("lng");
   my $name = $self->param("name");
@@ -50,6 +60,9 @@ sub create {
 # This action will render a template
 sub show {
   my $self = shift;
+
+
+#  $self->app->log->debug('show');
 
   my $id = $self->param("id");
 

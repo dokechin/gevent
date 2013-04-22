@@ -49,10 +49,9 @@ function load() {
       style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
     },
     panControl: false,
-    scaleControl: false,
     zoomControl: true,
     zoomControlOptions: {
-      style: google.maps.ZoomControlStyle.SMALL,
+      style:    google.maps.ZoomControlStyle.DEFAULT,
       position: google.maps.ControlPosition.LEFT_TOP
     }
   }
@@ -164,15 +163,25 @@ function searchLocations() {
 function searchLocationsNear(center) {
   var radius = document.getElementById("radiusSelect").value;
 
-  var searchUrl = "./event?lat="+center.lat()+"&lng="+center.lng()+"&radius="+radius;
+  var searchUrl = "./event?lat="+center.lat()+"&lng="+center.lng()+"&radius="+radius + "&time=" + (new Date().getTime());
   downloadUrl(searchUrl, "GET", function(data) {
+    
     var markers = data.documentElement.getElementsByTagName("marker");
     var sidebar = document.getElementById("side_bar");
 
     sidebar.innerHTML = "";
     if (markers.length == 0) {
       sidebar.innerHTML = 'データベース内にイベントがありません';
-      map.setCenter(center, 8);
+      map.setCenter(center);
+      if (radius == 1){
+        map.setZoom(17);
+      }
+      if (radius == 5){
+        map.setZoom(12);
+      }
+      if (radius == 10){
+        map.setZoom(11);
+      }
       return;
     }
     var bounds = new google.maps.LatLngBounds();
