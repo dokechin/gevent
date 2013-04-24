@@ -1,6 +1,4 @@
 % layout 'bootstrap';
 % title 'GEvent - ゲリライベント情報サイト';
-<center>
 <iframe src="map.html" width="640" height="640" scrolling="NO" frameborder="0"></iframe>
-</center>
 

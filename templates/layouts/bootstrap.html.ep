@@ -12,8 +12,8 @@
         <div class="container">
           <a href="/" class="brand"><img alt="logo" src="/img/logo.png" /></a>
           <ul class="nav">
-            <li class="active"><a href="/">検索</a></li>
-            <li><a href="/new">最新のエントリー</a></li>
+            <li class="<% if ($controller eq 'root') { %><%= 'active' %><% } %>"><a href="/">検索/登録</a></li>
+            <li class="<% if ($controller eq 'new')  { %><%= 'active' %><% } %>"><a href="/new">最新のエントリー</a></li>
           </ul>
         </div>
       </div>
