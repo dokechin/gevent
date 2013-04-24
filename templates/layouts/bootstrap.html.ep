@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta property="og:title" content="ゲリライベント | gevent" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="告知なしで突如実施されるゲリライベントを地図に登録、共有するサイトです" />
      <title><%= title %></title>
      <link rel="stylesheet" href="<%= url_for("/css/bootstrap.min.css") %>" />
      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
